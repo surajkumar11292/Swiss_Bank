@@ -1,0 +1,17 @@
+{
+  "name": "swiss-bank",
+  "version": "1.0.0",
+  "description": "Swiss Bank - Private Banking & Wealth Management (PERN Stack)",
+  "private": true,
+  "scripts": {
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev": "npm run dev:server",
+    "start": "npm start --prefix server",
+    "seed": "npm run seed --prefix server",
+    "test": "npm test --prefix server",
+    "build:client": "npm run build --prefix client",
+    "prisma:push": "npm run prisma:push --prefix server",
+    "prisma:generate": "npm run prisma:generate --prefix server"
+  }
+}

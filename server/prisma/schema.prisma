@@ -1,0 +1,133 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id             Int             @id @default(autoincrement())
+  email          String          @unique @db.VarChar(120)
+  fullName       String          @db.VarChar(100)
+  passwordHash   String
+  phone          String?         @db.VarChar(10)
+  dateOfBirth    DateTime?
+  panNumber      String?         @db.VarChar(10)
+  address        String?         @db.VarChar(200)
+  role           String          @default("USER") @db.VarChar(10)
+  totpSecret     String?         @db.VarChar(64)
+  totpEnabled    Boolean         @default(false)
+  createdAt      DateTime        @default(now())
+  
+  accounts       Account[]
+  beneficiaries  Beneficiary[]
+  billPayments   BillPayment[]
+  supportTickets SupportTicket[]
+
+  @@map("users")
+}
+
+model Account {
+  id            Int           @id @default(autoincrement())
+  accountNumber BigInt        @unique
+  ownerId       Int           @map("owner_id")
+  owner         User          @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  holderName    String        @db.VarChar(100)
+  balance       Decimal       @default(0.00) @db.Decimal(19, 2)
+  pinHash       String
+  frozen        Boolean       @default(false)
+  version       Int           @default(1)
+  createdAt     DateTime      @default(now())
+
+  ledgerEntries LedgerEntry[]
+  card          Card?
+  billPayments  BillPayment[]
+
+  @@map("accounts")
+}
+
+model LedgerEntry {
+  id           Int      @id @default(autoincrement())
+  accountId    Int      @map("account_id")
+  account      Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  type         String   @db.VarChar(10) // CREDIT, DEBIT
+  amount       Decimal  @db.Decimal(19, 2)
+  balanceAfter Decimal  @db.Decimal(19, 2)
+  description  String   @db.VarChar(120)
+  reference    String   @db.VarChar(40)
+  createdAt    DateTime @default(now())
+
+  @@index([accountId])
+  @@index([reference])
+  @@map("ledger_entries")
+}
+
+model Beneficiary {
+  id            Int      @id @default(autoincrement())
+  ownerId       Int      @map("owner_id")
+  owner         User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  name          String   @db.VarChar(100)
+  accountNumber BigInt
+  nickname      String?  @db.VarChar(60)
+  createdAt     DateTime @default(now())
+
+  @@index([ownerId])
+  @@map("beneficiaries")
+}
+
+model Card {
+  id                     Int       @id @default(autoincrement())
+  accountId              Int       @unique @map("account_id")
+  account                Account   @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  network                String    @default("VISA") @db.VarChar(20)
+  expiryMonth            Int
+  expiryYear             Int
+  frozen                 Boolean   @default(false)
+  contactlessEnabled     Boolean   @default(true)
+  onlineEnabled          Boolean   @default(true)
+  dailyLimit             Decimal   @default(25000.00) @db.Decimal(19, 2)
+  replacementRequestedAt DateTime?
+  createdAt              DateTime  @default(now())
+
+  @@map("cards")
+}
+
+model BillPayment {
+  id        Int      @id @default(autoincrement())
+  ownerId   Int      @map("owner_id")
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  accountId Int      @map("account_id")
+  account   Account  @relation(fields: [accountId], references: [id], onDelete: Cascade)
+  category  String   @db.VarChar(60)
+  consumer  String   @db.VarChar(60)
+  amount    Decimal  @db.Decimal(19, 2)
+  reference String   @db.VarChar(40)
+  createdAt DateTime @default(now())
+
+  @@index([ownerId])
+  @@map("bill_payments")
+}
+
+model SupportTicket {
+  id        Int      @id @default(autoincrement())
+  ownerId   Int      @map("owner_id")
+  owner     User     @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  subject   String   @db.VarChar(150)
+  message   String   @db.VarChar(2000)
+  status    String   @default("OPEN") @db.VarChar(10) // OPEN, CLOSED
+  createdAt DateTime @default(now())
+
+  @@index([ownerId])
+  @@map("support_tickets")
+}
+
+model Session {
+  sid    String   @id @map("sid") @db.VarChar
+  sess   Json     @db.Json
+  expire DateTime @db.Timestamp(6)
+
+  @@index([expire], map: "IDX_session_expire")
+  @@map("session")
+}
