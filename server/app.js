@@ -19,25 +19,37 @@ const pool = new pg.Pool({
 
 const app = express();
 
+// Trust proxy for secure cookies behind Render / Vercel reverse proxies
+app.set('trust proxy', 1);
+
 app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:"],
-      connectSrc: ["'self'"],
-      baseUri: ["'self'"],
-      frameAncestors: ["'none'"],
-      formAction: ["'self'"],
-    },
-  },
+  contentSecurityPolicy: false,
+  crossOriginResourcePolicy: { policy: "cross-origin" },
   referrerPolicy: { policy: 'no-referrer' },
 }));
 
+const allowedOrigins = [
+  'http://localhost:5173',
+  'http://localhost:3000',
+  'http://localhost:8080',
+  'https://swiss-bank-zeta.vercel.app',
+  /\.vercel\.app$/,
+  /\.onrender\.com$/,
+];
+
 app.use(cors({
-  origin: true,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    const isAllowed = allowedOrigins.some((allowed) => {
+      if (allowed instanceof RegExp) return allowed.test(origin);
+      return allowed === origin;
+    });
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      callback(null, true); // Permissive in production for client rewrites
+    }
+  },
   credentials: true,
 }));
 
@@ -57,15 +69,16 @@ app.use(session({
   secret: process.env.SESSION_SECRET || 'swiss_bank_secret_key',
   resave: false,
   saveUninitialized: false,
+  proxy: true,
   cookie: {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'lax',
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax',
     maxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
   },
 }));
 
-// Actuator health check endpoint for compatibility with Spring Boot health check
+// Actuator health check endpoint for compatibility
 app.get('/actuator/health', (req, res) => {
   res.json({ status: 'UP' });
 });

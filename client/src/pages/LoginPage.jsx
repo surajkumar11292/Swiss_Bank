@@ -202,14 +202,14 @@ export default function LoginPage() {
           <img src="/assets/logo.svg" alt="Swiss Bank Logo" />
           <div>
             <div className="auth-side__brand-name">Swiss Bank</div>
-            <div className="auth-side__brand-sub">Private Banking & Wealth Management</div>
+            <div className="auth-side__brand-sub">NETBANKING</div>
           </div>
         </div>
 
         <div className="auth-side__pitch">
-          <h2>Institutional Precision. Sovereign Security.</h2>
+          <h2>Banking that works as hard as you do.</h2>
           <p>
-            Experience double-entry ledger banking with pessimistic row-locking, multi-account isolation, and real-time transaction integrity.
+            Accounts, transfers, bill pay, cards, deposits, and loans — all in one secure dashboard.
           </p>
 
           <div className="auth-side__points">
@@ -217,41 +217,41 @@ export default function LoginPage() {
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              <span>Immutable double-entry ledger with running balance reconciliation</span>
+              <span>Session-secured sign-in with PIN-protected transactions</span>
             </div>
             <div className="auth-side__point">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              <span>Deterministic atomic transfers with zero race conditions</span>
+              <span>Instant transfers with a full double-entry statement</span>
             </div>
             <div className="auth-side__point">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
-              <span>Hardware & app-based RFC 6238 TOTP authentication</span>
+              <span>Deposit & loan calculators, bill pay, and more</span>
             </div>
           </div>
 
           <div className="auth-side__trust">
-            <span className="trust-chip">PostgreSQL ACID</span>
-            <span className="trust-chip">BCrypt Hashes</span>
-            <span className="trust-chip">SameSite Sessions</span>
+            <span className="trust-pill">🔒 256-bit encryption</span>
+            <span className="trust-pill">🛡️ RBI-style KYC checks</span>
+            <span className="trust-pill">⚡ PCI-DSS aligned</span>
           </div>
         </div>
 
         <div className="auth-side__foot">
-          © {new Date().getFullYear()} Swiss Bank Corporation. Licensed financial institution.
+          © {new Date().getFullYear()} Swiss Bank — demo product, not a real bank.
         </div>
       </aside>
 
       {/* Right Form Container */}
       <main className="auth-wrap-inner">
         <div className="auth-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-            <div className="brand" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-              <img src="/assets/logo.svg" alt="" style={{ width: 28, height: 28 }} />
-              <span style={{ fontWeight: 700, fontSize: 18, color: 'var(--text)' }}>Swiss Bank</span>
+          <div className="auth-card__header">
+            <div className="auth-card__brand">
+              <img src="/assets/logo.svg" alt="" />
+              <span>Swiss Bank</span>
             </div>
 
             <div className="theme-toggle" role="group" aria-label="Theme">
@@ -352,8 +352,8 @@ export default function LoginPage() {
             /* Main Auth Container */
             <div className="auth-body">
               <div className="auth-hero">
-                <h1>{mode === 'login' ? 'Sign in to Swiss Bank' : 'Open a Swiss Bank Account'}</h1>
-                <p>{mode === 'login' ? 'Enter your credentials to access your dashboard' : 'Complete 4 simple steps to open your verified bank account'}</p>
+                <h1>{mode === 'login' ? 'Welcome back' : 'Create an Account'}</h1>
+                <p>{mode === 'login' ? 'Sign in to manage your accounts.' : 'Complete 4 simple steps to open your verified bank account.'}</p>
               </div>
 
               <div className="auth-tabs" role="tablist">
@@ -366,7 +366,7 @@ export default function LoginPage() {
                     setErrorBanner('');
                   }}
                 >
-                  Sign In
+                  Sign in
                 </button>
                 <button
                   className="auth-tab"
@@ -377,7 +377,7 @@ export default function LoginPage() {
                     setErrorBanner('');
                   }}
                 >
-                  Create Account
+                  Create account
                 </button>
               </div>
 
@@ -390,13 +390,13 @@ export default function LoginPage() {
 
               {mode === 'login' ? (
                 /* Login Form */
-                <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
                   <div className="field">
-                    <label htmlFor="loginEmail">Email Address <span className="req">*</span></label>
+                    <label htmlFor="loginEmail">Email <span className="req">*</span></label>
                     <input
                       id="loginEmail"
                       type="email"
-                      placeholder="name@bank.app"
+                      placeholder="you@example.com"
                       value={loginEmail}
                       onChange={(e) => setLoginEmail(e.target.value)}
                       required
@@ -421,39 +421,32 @@ export default function LoginPage() {
                         onClick={() => setShowLoginPassword(!showLoginPassword)}
                         title="Toggle password visibility"
                       >
-                        <svg className="eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                          <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                        <svg className="eye-closed" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                          <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                          <line x1="1" y1="1" x2="23" y2="23"></line>
-                        </svg>
+                        {showLoginPassword ? (
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                            <line x1="1" y1="1" x2="23" y2="23"></line>
+                          </svg>
+                        ) : (
+                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                          </svg>
+                        )}
                       </button>
                     </div>
                   </div>
 
                   <button type="submit" className={`btn btn--primary btn--block ${loading ? 'is-loading' : ''}`} disabled={loading}>
-                    <span className="btn__label">Sign In to Dashboard</span>
+                    <span className="btn__label">Sign in</span>
                     <span className="btn__spinner" />
                   </button>
 
                   <div className="auth-demo">
-                    Demo Account:{' '}
-                    <b
-                      style={{ cursor: 'pointer', textDecoration: 'underline' }}
-                      onClick={() => fillDemo('demo@bank.app', 'demo12345')}
-                    >
-                      demo@bank.app / demo12345
-                    </b>
-                    <br />
-                    Admin Account:{' '}
-                    <b
-                      style={{ cursor: 'pointer', textDecoration: 'underline' }}
-                      onClick={() => fillDemo('admin@bank.app', 'admin12345')}
-                    >
-                      admin@bank.app / admin12345
-                    </b>
+                    Demo login — <b onClick={() => fillDemo('demo@bank.app', 'demo12345')}>demo@bank.app</b> · password <b onClick={() => fillDemo('demo@bank.app', 'demo12345')}>demo12345</b>
+                    <span className="demo-sub">(a beneficiary, a bill payment, and a support ticket are pre-loaded)</span>
+                    <div style={{ marginTop: 6 }}>
+                      Admin login — <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin@bank.app</b> · password <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin12345</b>
+                    </div>
                   </div>
                 </form>
               ) : (
