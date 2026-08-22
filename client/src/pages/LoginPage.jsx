@@ -214,19 +214,19 @@ export default function LoginPage() {
 
           <div className="auth-side__points">
             <div className="auth-side__point">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a9791e" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
               <span>Session-secured sign-in with PIN-protected transactions</span>
             </div>
             <div className="auth-side__point">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a9791e" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
               <span>Instant transfers with a full double-entry statement</span>
             </div>
             <div className="auth-side__point">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#a9791e" strokeWidth="2.5">
                 <polyline points="20 6 9 17 4 12"></polyline>
               </svg>
               <span>Deposit & loan calculators, bill pay, and more</span>
@@ -234,9 +234,25 @@ export default function LoginPage() {
           </div>
 
           <div className="auth-side__trust">
-            <span className="trust-pill">🔒 256-bit encryption</span>
-            <span className="trust-pill">🛡️ RBI-style KYC checks</span>
-            <span className="trust-pill">⚡ PCI-DSS aligned</span>
+            <span className="trust-chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+              256-bit encryption
+            </span>
+            <span className="trust-chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+              RBI-style KYC checks
+            </span>
+            <span className="trust-chip">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+              </svg>
+              PCI-DSS aligned
+            </span>
           </div>
         </div>
 
@@ -247,55 +263,56 @@ export default function LoginPage() {
 
       {/* Right Form Container */}
       <main className="auth-wrap-inner">
-        <div className="auth-card">
-          <div className="auth-card__header">
-            <div className="auth-card__brand">
-              <img src="/assets/logo.svg" alt="" />
-              <span>Swiss Bank</span>
-            </div>
+        {/* Floating Theme Toggler */}
+        <div style={{ position: 'absolute', top: 24, right: 28, zIndex: 10 }}>
+          <div className="theme-toggle" role="group" aria-label="Theme">
+            <button
+              type="button"
+              aria-pressed={theme === 'light'}
+              onClick={() => setTheme('light')}
+              title="Light theme"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="12" r="5"></circle>
+                <line x1="12" y1="1" x2="12" y2="3"></line>
+                <line x1="12" y1="21" x2="12" y2="23"></line>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                <line x1="1" y1="12" x2="3" y2="12"></line>
+                <line x1="21" y1="12" x2="23" y2="12"></line>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-pressed={theme === 'dark'}
+              onClick={() => setTheme('dark')}
+              title="Dark theme"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              </svg>
+            </button>
+            <button
+              type="button"
+              aria-pressed={theme === 'system'}
+              onClick={() => setTheme('system')}
+              title="System preference"
+            >
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                <line x1="8" y1="21" x2="16" y2="21"></line>
+                <line x1="12" y1="17" x2="12" y2="21"></line>
+              </svg>
+            </button>
+          </div>
+        </div>
 
-            <div className="theme-toggle" role="group" aria-label="Theme">
-              <button
-                type="button"
-                aria-pressed={theme === 'light'}
-                onClick={() => setTheme('light')}
-                title="Light theme"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="5"></circle>
-                  <line x1="12" y1="1" x2="12" y2="3"></line>
-                  <line x1="12" y1="21" x2="12" y2="23"></line>
-                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                  <line x1="1" y1="12" x2="3" y2="12"></line>
-                  <line x1="21" y1="12" x2="23" y2="12"></line>
-                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-pressed={theme === 'dark'}
-                onClick={() => setTheme('dark')}
-                title="Dark theme"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                </svg>
-              </button>
-              <button
-                type="button"
-                aria-pressed={theme === 'system'}
-                onClick={() => setTheme('system')}
-                title="System preference"
-              >
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                  <line x1="8" y1="21" x2="16" y2="21"></line>
-                  <line x1="12" y1="17" x2="12" y2="21"></line>
-                </svg>
-              </button>
-            </div>
+        <div className="auth-card">
+          <div className="auth-hero__brand">
+            <img src="/assets/logo.svg" alt="" />
+            <span>Swiss Bank</span>
           </div>
 
           {showMfa ? (
@@ -350,7 +367,7 @@ export default function LoginPage() {
             </div>
           ) : (
             /* Main Auth Container */
-            <div className="auth-body">
+            <div>
               <div className="auth-hero">
                 <h1>{mode === 'login' ? 'Welcome back' : 'Create an Account'}</h1>
                 <p>{mode === 'login' ? 'Sign in to manage your accounts.' : 'Complete 4 simple steps to open your verified bank account.'}</p>
@@ -390,7 +407,7 @@ export default function LoginPage() {
 
               {mode === 'login' ? (
                 /* Login Form */
-                <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+                <form onSubmit={handleLoginSubmit} style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
                   <div className="field">
                     <label htmlFor="loginEmail">Email <span className="req">*</span></label>
                     <input
@@ -428,7 +445,7 @@ export default function LoginPage() {
                           </svg>
                         ) : (
                           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
                             <circle cx="12" cy="12" r="3"></circle>
                           </svg>
                         )}
@@ -443,8 +460,10 @@ export default function LoginPage() {
 
                   <div className="auth-demo">
                     Demo login — <b onClick={() => fillDemo('demo@bank.app', 'demo12345')}>demo@bank.app</b> · password <b onClick={() => fillDemo('demo@bank.app', 'demo12345')}>demo12345</b>
-                    <span className="demo-sub">(a beneficiary, a bill payment, and a support ticket are pre-loaded)</span>
-                    <div style={{ marginTop: 6 }}>
+                    <span className="demo-sub" style={{ display: 'block', color: 'var(--text-faint)', fontSize: 11, marginTop: 2 }}>
+                      (a beneficiary, a bill payment, and a support ticket are pre-loaded)
+                    </span>
+                    <div style={{ marginTop: 4 }}>
                       Admin login — <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin@bank.app</b> · password <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin12345</b>
                     </div>
                   </div>
@@ -518,14 +537,17 @@ export default function LoginPage() {
                               aria-pressed={showRegPassword}
                               onClick={() => setShowRegPassword(!showRegPassword)}
                             >
-                              <svg className="eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                <circle cx="12" cy="12" r="3"></circle>
-                              </svg>
-                              <svg className="eye-closed" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                <line x1="1" y1="1" x2="23" y2="23"></line>
-                              </svg>
+                              {showRegPassword ? (
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
+                                  <line x1="1" y1="1" x2="23" y2="23"></line>
+                                </svg>
+                              ) : (
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                  <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                              )}
                             </button>
                           </div>
                           {regData.password && (
@@ -704,11 +726,7 @@ export default function LoginPage() {
                           </div>
                         </div>
 
-                        <div className="note-strip">
-                          🔐 Your password and security PIN are hashed server-side with BCrypt.
-                        </div>
-
-                        <div className="auth-step__nav">
+                        <div className="auth-step__nav" style={{ marginTop: 12 }}>
                           <button type="button" className="btn btn--ghost" onClick={prevStep} disabled={loading}>
                             ← Edit
                           </button>
