@@ -418,7 +418,6 @@ export default function DashboardPage() {
       return { invested, interest, maturity };
     } else {
       const invested = P * n;
-      // RD quarterly compounding approximation
       const maturity = Math.round(P * ((Math.pow(1 + r / 4, (4 * n) / 12) - 1) / (1 - Math.pow(1 + r / 4, -1 / 3))));
       const interest = Math.max(0, maturity - invested);
       return { invested, interest, maturity };
@@ -534,18 +533,6 @@ export default function DashboardPage() {
             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 0 1 5 0c0 1.6-2.2 2-2.5 3.4M12 17h.01"/></svg>
             Support
           </button>
-
-          {user?.role === 'ADMIN' && (
-            <button
-              className="nav__item"
-              style={{ color: 'var(--gold)', marginTop: 12 }}
-              onClick={() => navigate('/admin')}
-              type="button"
-            >
-              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6z"/></svg>
-              Admin console
-            </button>
-          )}
         </nav>
 
         <div className="sidebar__foot">
@@ -672,7 +659,7 @@ export default function DashboardPage() {
 
                 <div className="stat-card">
                   <div className="stat-card__label">Money out (recent)</div>
-                  <div className="stat-card__value"><span className="cur">₹</span>{money(recentMoneyOut || 7003)}</div>
+                  <div className="stat-card__value"><span className="cur">₹</span>{money(recentMoneyOut || 1180)}</div>
                   <div className="stat-card__meta">Across recent activity</div>
                 </div>
 

@@ -68,11 +68,7 @@ export default function LoginPage() {
         toast('Two-factor authentication required', 'info');
       } else {
         toast(`Welcome back, ${res.user.fullName}!`);
-        if (res.user.role === 'ADMIN') {
-          navigate('/admin');
-        } else {
-          navigate('/');
-        }
+        navigate('/');
       }
     } catch (err) {
       setErrorBanner(err.message || 'Invalid email or password');
@@ -90,11 +86,7 @@ export default function LoginPage() {
     try {
       const user = await verify2fa(mfaCode);
       toast(`Welcome back, ${user.fullName}!`);
-      if (user.role === 'ADMIN') {
-        navigate('/admin');
-      } else {
-        navigate('/');
-      }
+      navigate('/');
     } catch (err) {
       setErrorBanner(err.message || 'Invalid 2FA code');
       toast(err.message || 'Verification failed', 'error');
@@ -154,7 +146,6 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // 1. Register User
       await api('/api/auth/register', {
         method: 'POST',
         body: JSON.stringify({
@@ -168,10 +159,8 @@ export default function LoginPage() {
         }),
       });
 
-      // 2. Automatically Log In
       await login(regData.email, regData.password);
 
-      // 3. Open Initial Primary Account
       await api('/api/accounts', {
         method: 'POST',
         body: JSON.stringify({
@@ -270,40 +259,32 @@ export default function LoginPage() {
               type="button"
               aria-pressed={theme === 'light'}
               onClick={() => setTheme('light')}
-              title="Light theme"
+              title="Light"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="12" cy="12" r="5"></circle>
-                <line x1="12" y1="1" x2="12" y2="3"></line>
-                <line x1="12" y1="21" x2="12" y2="23"></line>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                <line x1="1" y1="12" x2="3" y2="12"></line>
-                <line x1="21" y1="12" x2="23" y2="12"></line>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
               </svg>
             </button>
             <button
               type="button"
               aria-pressed={theme === 'dark'}
               onClick={() => setTheme('dark')}
-              title="Dark theme"
+              title="Dark"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
               </svg>
             </button>
             <button
               type="button"
               aria-pressed={theme === 'system'}
               onClick={() => setTheme('system')}
-              title="System preference"
+              title="System"
             >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
-                <line x1="8" y1="21" x2="16" y2="21"></line>
-                <line x1="12" y1="17" x2="12" y2="21"></line>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+                <path d="M8 21h8M12 17v4"></path>
               </svg>
             </button>
           </div>
@@ -438,17 +419,16 @@ export default function LoginPage() {
                         onClick={() => setShowLoginPassword(!showLoginPassword)}
                         title="Toggle password visibility"
                       >
-                        {showLoginPassword ? (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                            <line x1="1" y1="1" x2="23" y2="23"></line>
-                          </svg>
-                        ) : (
-                          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                          </svg>
-                        )}
+                        <svg className="eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                          <circle cx="12" cy="12" r="3" />
+                        </svg>
+                        <svg className="eye-closed" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                          <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                          <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                          <line x1="2" y1="2" x2="22" y2="22" />
+                        </svg>
                       </button>
                     </div>
                   </div>
@@ -463,9 +443,6 @@ export default function LoginPage() {
                     <span className="demo-sub" style={{ display: 'block', color: 'var(--text-faint)', fontSize: 11, marginTop: 2 }}>
                       (a beneficiary, a bill payment, and a support ticket are pre-loaded)
                     </span>
-                    <div style={{ marginTop: 4 }}>
-                      Admin login — <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin@bank.app</b> · password <b onClick={() => fillDemo('admin@bank.app', 'admin12345')}>admin12345</b>
-                    </div>
                   </div>
                 </form>
               ) : (
@@ -537,17 +514,16 @@ export default function LoginPage() {
                               aria-pressed={showRegPassword}
                               onClick={() => setShowRegPassword(!showRegPassword)}
                             >
-                              {showRegPassword ? (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
-                                  <line x1="1" y1="1" x2="23" y2="23"></line>
-                                </svg>
-                              ) : (
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                                  <circle cx="12" cy="12" r="3"></circle>
-                                </svg>
-                              )}
+                              <svg className="eye-open" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
+                                <circle cx="12" cy="12" r="3" />
+                              </svg>
+                              <svg className="eye-closed" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+                                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68" />
+                                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61" />
+                                <line x1="2" y1="2" x2="22" y2="22" />
+                              </svg>
                             </button>
                           </div>
                           {regData.password && (
