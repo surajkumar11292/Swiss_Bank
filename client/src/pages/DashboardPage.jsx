@@ -440,6 +440,9 @@ export default function DashboardPage() {
 
   return (
     <div className="app-shell">
+      {/* Sidebar Backdrop for Mobile */}
+      {sidebarOpen && <div className="sidebar-backdrop" onClick={() => setSidebarOpen(false)} />}
+
       {/* Sidebar Navigation */}
       <aside className={`sidebar ${sidebarOpen ? 'is-open' : ''}`} id="sidebar">
         <div className="sidebar__brand" style={{ cursor: 'pointer' }} onClick={() => setActiveView('dashboard')}>
